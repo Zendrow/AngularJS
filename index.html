@@ -1,13 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="store">
+<!-- directive tag ng- -->
 
 <head>
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <!-- SCRIPT -->
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
 </head>
 
-<body>
-    <script type="text/javascript" src="angular.min.js"></script>
-    <script type="text/javascript" src="app.js"></script>
+<body ng-controller="StoreController as store">
+    <!-- ora andiamo a scrivere quello che vogliamo dalla nostra app -->
+    <!-- i dati vengono inseriti tra le blade -->
+    <!-- directive: ng-controller
+    controller name: StoreController
+    alias: store -->
+    
+    <!-- directive: ng-hide per nascondere -->
+    <!-- directive: ng-show per mostrare -->
+
+    <div ng-repeat="product in store.products">
+        <h1>{{product.name}}</h1>
+        <h2>&#8364; {{product.price}}</h2>
+        <p>{{product.description}}</p>
+        <button ng-show="product.canPurchase">Add to car</button>
+    </div>
+
+
 </body>
 
 </html>

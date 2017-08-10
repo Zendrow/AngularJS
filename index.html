@@ -3,13 +3,13 @@
 <!-- directive tag ng- -->
 
 <head>
-    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
     <!-- SCRIPT -->
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 </head>
 
-<body ng-controller="StoreController as store">
+<body ng-controller="StoreController as store" style="padding-bottom:100px;">
     <!-- ora andiamo a scrivere quello che vogliamo dalla nostra app -->
     <!-- i dati vengono inseriti tra le blade -->
     <!-- directive: ng-controller
@@ -50,7 +50,7 @@
             <h2>{{product.price | currency }}</h2>
             <!-- currencyformatta il prezzo in base alla moneta default dollaro -->
             <!-- se mettiamo $ da problemi -->
-            
+
             <!-- si possono annidare i ng-repeat nel caso di altri array per esempio
             <div ng-repeat="image in product.images">
                 <img ng-src="image" />
@@ -60,7 +60,61 @@
             <button ng-show="product.canPurchase">Add to car</button>
         </div>
 
-        
+        <section ng-init="tab = 1">
+            <ul class="nav nav-pills">
+                <li ng-class="{ active:tab === 1 }">
+                    <a href="" ng-click="tab = 1">Description</a>
+                </li>
+                <li ng-class="{ active:tab === 2 }">
+                    <a href="" ng-click="tab = 2">Specification</a>
+                </li>
+                <li ng-class="{ active:tab === 3 }">
+                    <a href="" ng-click="tab = 3">Reviews</a>
+                </li>
+            </ul>
+            {{tab}}
+
+            <div class="panel" ng-show="tab === 1">
+                <h4>Description</h4>
+                <p>{{product.description}}</p>
+            </div>
+            <div class="panel" ng-show="tab === 2">
+                <h4>Description</h4>
+                <blockquote>None yet</blockquote>
+            </div>
+            <div class="panel" ng-show="tab === 3">
+                <h4>Description</h4>
+                <blockquote>None yet</blockquote>
+            </div>
+        </section>
+
+        <section ng-controller="PanelController as panel">
+            <ul class="nav nav-pills">
+                <li ng-class="{ active: panel.isSelected(1) }">
+                    <a href="" ng-click="panel.selectTab(1)">Description</a>
+                </li>
+                <li ng-class="{ active: panel.isSelected(2) }">
+                    <a href="" ng-click="panel.selectTab(2)">Specification</a>
+                </li>
+                <li ng-class="{ active: panel.isSelected(3) }">
+                    <a href="" ng-click="panel.selectTab(3)">Reviews</a>
+                </li>
+            </ul>
+            {{tab2}}
+
+            <div class="panel" ng-show="panel.isSelected(1)">
+                <h4>Description</h4>
+                <p>{{product.description}}</p>
+            </div>
+            <div class="panel" ng-show="panel.isSelected(2)">
+                <h4>Description</h4>
+                <blockquote>None yet</blockquote>
+            </div>
+            <div class="panel" ng-show="panel.isSelected(3)">
+                <h4>Description</h4>
+                <blockquote>None yet</blockquote>
+            </div>
+        </section>
 
     </div>
 

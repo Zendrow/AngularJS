@@ -8,7 +8,16 @@
             price: 2.95,
             description: 'robe a cose',
             canPurchase: true,
-            soldOut: true
+            soldOut: true,
+            images: [
+                {
+                    full: 'img/dodecahedron-01-full.jpg',
+                    thumb: 'img/dodecahedron-01-thumb.png'
+                },
+                {
+                    full: 'img/dodecahedron-02-full.jpg'
+                }
+            ]
         }, {
             name: 'Maronne',
             price: 5.95,

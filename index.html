@@ -15,17 +15,54 @@
     <!-- directive: ng-controller
     controller name: StoreController
     alias: store -->
-    
+
     <!-- directive: ng-hide per nascondere -->
     <!-- directive: ng-show per mostrare -->
 
     <div ng-repeat="product in store.products">
         <h1>{{product.name}}</h1>
-        <h2>&#8364; {{product.price}}</h2>
+        <h2>&#8364; {{product.price | currency }}</h2>
+        <!-- currencyformatta il prezzo in base alla moneta -->
         <p>{{product.description}}</p>
         <button ng-show="product.canPurchase">Add to car</button>
     </div>
 
+    <!-- formatting with filter -->
+    <!-- {{ data | filter:option }} -->
+    <div>
+        <h2>Date:</h2>
+        <p>{{ '1388123412323' | date: 'MM/dd/yyyy @ h:mma' }}</p>
+        <h2>Uppercase-lowercase:</h2>
+        <p>{{ 'maiuscolo' | uppercase }}</p>
+        <h2>limitTo:</h2>
+        <div ng-repeat="product in store.products | limitTo:3 ">
+            <h1>{{product.name}}</h1>
+            <img ng-src="{{product.images[0].full}}" />
+            <h2>&#8364; {{product.price}}</h2>
+            <!-- currencyformatta il prezzo in base alla moneta -->
+            <p>{{product.description}}</p>
+            <button ng-show="product.canPurchase">Add to car</button>
+        </div>
+        <h2>orderBy</h2>
+        <div ng-repeat="product in store.products | orderBy:'-price' ">
+            <!-- il - sta per desc -->
+            <h1>{{product.name}}</h1>
+            <h2>{{product.price | currency }}</h2>
+            <!-- currencyformatta il prezzo in base alla moneta default dollaro -->
+            <!-- se mettiamo $ da problemi -->
+            
+            <!-- si possono annidare i ng-repeat nel caso di altri array per esempio
+            <div ng-repeat="image in product.images">
+                <img ng-src="image" />
+            </div> -->
+
+            <p>{{product.description}}</p>
+            <button ng-show="product.canPurchase">Add to car</button>
+        </div>
+
+        
+
+    </div>
 
 </body>
 

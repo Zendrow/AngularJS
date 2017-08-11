@@ -4,6 +4,7 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
     <!-- SCRIPT -->
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
@@ -88,33 +89,65 @@
             </div>
         </section>
 
-        <section ng-controller="PanelController as panel">
-            <ul class="nav nav-pills">
-                <li ng-class="{ active: panel.isSelected(1) }">
-                    <a href="" ng-click="panel.selectTab(1)">Description</a>
-                </li>
-                <li ng-class="{ active: panel.isSelected(2) }">
-                    <a href="" ng-click="panel.selectTab(2)">Specification</a>
-                </li>
-                <li ng-class="{ active: panel.isSelected(3) }">
-                    <a href="" ng-click="panel.selectTab(3)">Reviews</a>
-                </li>
-            </ul>
-            {{tab2}}
+        <div ng-repeat="product in store.products | orderBy:'-price' ">
+            <!-- il - sta per desc -->
+            <h1>{{product.name}}</h1>
+            <h2>{{product.price | currency }}</h2>
+            <section ng-controller="PanelController as panel">
+                <ul class="nav nav-pills">
+                    <li ng-class="{ active: panel.isSelected(1) }">
+                        <a href="" ng-click="panel.selectTab(1)">Description</a>
+                    </li>
+                    <li ng-class="{ active: panel.isSelected(2) }">
+                        <a href="" ng-click="panel.selectTab(2)">Specification</a>
+                    </li>
+                    <li ng-class="{ active: panel.isSelected(3) }">
+                        <a href="" ng-click="panel.selectTab(3)">Reviews</a>
+                    </li>
+                </ul>
+                {{tab2}}
 
-            <div class="panel" ng-show="panel.isSelected(1)">
-                <h4>Description</h4>
-                <p>{{product.description}}</p>
-            </div>
-            <div class="panel" ng-show="panel.isSelected(2)">
-                <h4>Description</h4>
-                <blockquote>None yet</blockquote>
-            </div>
-            <div class="panel" ng-show="panel.isSelected(3)">
-                <h4>Description</h4>
-                <blockquote>None yet</blockquote>
-            </div>
-        </section>
+                <div class="panel" ng-show="panel.isSelected(1)">
+                    <h4>Description</h4>
+                    <p>{{product.description}}</p>
+                </div>
+                <div class="panel" ng-show="panel.isSelected(2)">
+                    <h4>Spec</h4>
+                    <blockquote>None yet</blockquote>
+                </div>
+                <div class="panel" ng-show="panel.isSelected(3)">
+                    <h4>Reviews</h4>
+
+                    <!-- uso del ng.model per interagire col browser -->
+
+                    <form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)" novalidate>
+                        <blockquote ng-repeat="review in product.reviews">
+                            <b>Stars: {{reviewCtrl.review.stars}}</b> {{reviewCtrl.review.body}}
+                            <cite>by: {{reviewCtrl.review.author}}</cite>
+                        </blockquote>
+                        <select ng-model="reviewCtrl.review.stars" required>
+                            <option value="1">1 star</option>
+                            <option value="2">2 star</option>
+                            <option value="3">3 star</option>
+                            <option value="4">4 star</option>
+                            <option value="5">5 star</option>
+                        </select>
+
+                        <textarea ng-model="reviewCtrl.review.body" required placeholder="commenta"></textarea>
+                        <label>by:</label>
+                        <input name="author" ng-model="reviewCtrl.review.author" required type="email" />
+                        <!-- si può aggiungere alla class:
+                        prima di digitare email: ng-pristine ng-invalid
+                        dopo se sbagliata      : ng-dirty ng-invalid
+                        dopo se giusta         : ng-dirty ng-invalid -->
+                        <div> reviewForm is {{reviewForm.$valid}}</div>
+                        <input type="submit" value="Submit" />
+                    </form>
+                </div>
+            </section>
+        </div>
+
+
 
     </div>
 

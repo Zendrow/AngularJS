@@ -17,6 +17,18 @@
                 {
                     full: 'img/dodecahedron-02-full.jpg'
                 }
+            ],
+            reviews: [
+                {
+                    stars: 5,
+                    body: "i love this product!",
+                    author: "joe@thomas.com"
+                },
+                {
+                    stars: 1,
+                    body: "This product sucks",
+                    author: "iam@hater.com"
+                }
             ]
         }, {
             name: 'Maronne',
@@ -53,6 +65,18 @@
         this.isSelected = function(checkTab){
             return this.tab === checkTab;
         };
+    });
+
+    app.controller('ReviewController', function (){
+        this.review = {};
+
+        this.addReview = function(product){
+            product.reviews.push(this.review);
+            // pusha la nuova review nell'array 
+            this.review = {};
+            // refresh
+        };
+
     });
 
 })();

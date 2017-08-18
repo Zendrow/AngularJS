@@ -60,72 +60,80 @@
             <p>{{product.description}}</p>
             <button ng-show="product.canPurchase">Add to car</button>
         </div>
+    </div>
 
-        <section ng-init="tab = 1">
+    <section ng-init="tab = 1">
+        <ul class="nav nav-pills">
+            <li ng-class="{ active:tab === 1 }">
+                <a href="" ng-click="tab = 1">Description</a>
+            </li>
+            <li ng-class="{ active:tab === 2 }">
+                <a href="" ng-click="tab = 2">Specification</a>
+            </li>
+            <li ng-class="{ active:tab === 3 }">
+                <a href="" ng-click="tab = 3">Reviews</a>
+            </li>
+        </ul>
+        {{tab}}
+
+        <div class="panel" ng-show="tab === 1">
+            <h4>Description</h4>
+            <p>{{product.description}}</p>
+        </div>
+        <div class="panel" ng-show="tab === 2">
+            <h4>Description</h4>
+            <blockquote>None yet</blockquote>
+        </div>
+        <div class="panel" ng-show="tab === 3">
+            <h4>Description</h4>
+            <blockquote>None yet</blockquote>
+        </div>
+    </section>
+
+    <div ng-repeat="product in store.products | orderBy:'-price' ">
+        <!-- il - sta per desc -->
+        <!-- ng-iclude si aspetta una stringa tra apici singoli -->
+        <!-- ng-include serve per icludere una pagina tipo php -->
+        <product-title></product-title>
+        <hr />
+        <!-- <h3 ng-include="'product-title.html'">
+                <span class="ng-scope ng-binding">Avesome Multi-touch Keyboard</span>
+                <em class="pull-right ng-scope ng-binding">$250.00</em>
+            </h3> -->
+        <section ng-controller="PanelController as panel">
             <ul class="nav nav-pills">
-                <li ng-class="{ active:tab === 1 }">
-                    <a href="" ng-click="tab = 1">Description</a>
+                <li ng-class="{ active: panel.isSelected(1) }">
+                    <a href="" ng-click="panel.selectTab(1)">Description</a>
                 </li>
-                <li ng-class="{ active:tab === 2 }">
-                    <a href="" ng-click="tab = 2">Specification</a>
+                <li ng-class="{ active: panel.isSelected(2) }">
+                    <a href="" ng-click="panel.selectTab(2)">Specification</a>
                 </li>
-                <li ng-class="{ active:tab === 3 }">
-                    <a href="" ng-click="tab = 3">Reviews</a>
+                <li ng-class="{ active: panel.isSelected(3) }">
+                    <a href="" ng-click="panel.selectTab(3)">Reviews</a>
                 </li>
             </ul>
-            {{tab}}
+            {{tab2}}
 
-            <div class="panel" ng-show="tab === 1">
+            <div class="panel" ng-show="panel.isSelected(1)">
                 <h4>Description</h4>
                 <p>{{product.description}}</p>
             </div>
-            <div class="panel" ng-show="tab === 2">
-                <h4>Description</h4>
+            <div class="panel" ng-show="panel.isSelected(2)">
+                <h4>Spec</h4>
                 <blockquote>None yet</blockquote>
             </div>
-            <div class="panel" ng-show="tab === 3">
-                <h4>Description</h4>
-                <blockquote>None yet</blockquote>
-            </div>
-        </section>
+            <div class="panel" ng-show="panel.isSelected(3)">
+                <h4>Reviews</h4>
 
-        <div ng-repeat="product in store.products | orderBy:'-price' ">
-            <!-- il - sta per desc -->
-            <h1>{{product.name}}</h1>
-            <h2>{{product.price | currency }}</h2>
-            <section ng-controller="PanelController as panel">
-                <ul class="nav nav-pills">
-                    <li ng-class="{ active: panel.isSelected(1) }">
-                        <a href="" ng-click="panel.selectTab(1)">Description</a>
-                    </li>
-                    <li ng-class="{ active: panel.isSelected(2) }">
-                        <a href="" ng-click="panel.selectTab(2)">Specification</a>
-                    </li>
-                    <li ng-class="{ active: panel.isSelected(3) }">
-                        <a href="" ng-click="panel.selectTab(3)">Reviews</a>
-                    </li>
-                </ul>
-                {{tab2}}
+                <!-- uso del ng.model per interagire col browser -->
 
-                <div class="panel" ng-show="panel.isSelected(1)">
-                    <h4>Description</h4>
-                    <p>{{product.description}}</p>
-                </div>
-                <div class="panel" ng-show="panel.isSelected(2)">
-                    <h4>Spec</h4>
-                    <blockquote>None yet</blockquote>
-                </div>
-                <div class="panel" ng-show="panel.isSelected(3)">
-                    <h4>Reviews</h4>
-
-                    <!-- uso del ng.model per interagire col browser -->
-
-                    <form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)" novalidate>
-                        <blockquote ng-repeat="review in product.reviews">
-                            <b>Stars: {{reviewCtrl.review.stars}}</b> {{reviewCtrl.review.body}}
-                            <cite>by: {{reviewCtrl.review.author}}</cite>
-                        </blockquote>
-                        <select ng-model="reviewCtrl.review.stars" required>
+                <form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)"
+                    novalidate>
+                    <blockquote ng-repeat="review in product.reviews">
+                        <b>Stars: {{reviewCtrl.review.stars}}</b> {{reviewCtrl.review.body}}
+                        <cite>by: {{reviewCtrl.review.author}}</cite>
+                    </blockquote>
+                    <select ng-model="reviewCtrl.review.stars" required>
                             <option value="1">1 star</option>
                             <option value="2">2 star</option>
                             <option value="3">3 star</option>
@@ -133,21 +141,22 @@
                             <option value="5">5 star</option>
                         </select>
 
-                        <textarea ng-model="reviewCtrl.review.body" required placeholder="commenta"></textarea>
-                        <label>by:</label>
-                        <input name="author" ng-model="reviewCtrl.review.author" required type="email" />
-                        <!-- si può aggiungere alla class:
+                    <textarea ng-model="reviewCtrl.review.body" required placeholder="commenta"></textarea>
+                    <label>by:</label>
+                    <input name="author" ng-model="reviewCtrl.review.author" required type="email" />
+                    <!-- si può aggiungere alla class:
                         prima di digitare email: ng-pristine ng-invalid
                         dopo se sbagliata      : ng-dirty ng-invalid
                         dopo se giusta         : ng-dirty ng-invalid -->
-                        <div> reviewForm is {{reviewForm.$valid}}</div>
-                        <input type="submit" value="Submit" />
-                    </form>
-                </div>
-            </section>
-        </div>
+                    <div> reviewForm is {{reviewForm.$valid}}</div>
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
+        </section>
 
-
+        <h1>nuovarrroobbbaaaa</h1>
+        <!-- possiamo creare delle nostre direttive (potenzialità di angularjs) -->
+        <product-panels></product-panels>
 
     </div>
 

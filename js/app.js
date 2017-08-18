@@ -40,7 +40,7 @@
     ];
     // gem è un json praticamente
 
-    var app = angular.module('store', []);
+    var app = angular.module('store', ['product-store']);
 
     // angular richiama agularjs
     // module è il modulo
@@ -58,19 +58,19 @@
     app.controller('PanelController', function () {
         this.tab = 1;
 
-        this.selectTab = function(setTab){
+        this.selectTab = function (setTab) {
             this.tab = setTab;
         };
 
-        this.isSelected = function(checkTab){
+        this.isSelected = function (checkTab) {
             return this.tab === checkTab;
         };
     });
 
-    app.controller('ReviewController', function (){
+    app.controller('ReviewController', function () {
         this.review = {};
 
-        this.addReview = function(product){
+        this.addReview = function (product) {
             product.reviews.push(this.review);
             // pusha la nuova review nell'array 
             this.review = {};
@@ -78,6 +78,26 @@
         };
 
     });
+
+    // generare direttive personalizzate
+
+    // <product-title></product-title> lo vedremo nell'html per il template
+
+//    $http
+//    $log
+//    $filter
+
+    // app.controller('StoreController', ['$http', function($http){
+    //     var store = this;
+
+    //     store.products = [ ];
+
+    //     $http.get('/products.json').success(function(data){
+    //         store.products = data;
+    //     });
+    // }]);
+
+    // si possono usare post, delete oppure option patch trace
 
 })();
 
